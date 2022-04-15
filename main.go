@@ -2,11 +2,12 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"time"
 
 	"github.com/TechBowl-japan/go-stations/db"
-	"github.com/TechBowl-japan/go-stations/handler/router"
+	// "github.com/TechBowl-japan/go-stations/handler/router"
 )
 
 func main() {
@@ -48,9 +49,13 @@ func realMain() error {
 	defer todoDB.Close()
 
 	// NOTE: 新しいエンドポイントの登録はrouter.NewRouterの内部で行うようにする
-	mux := router.NewRouter(todoDB)
+	// mux := router.NewRouter(todoDB)
+	mux := http.NewServeMux()
 
 	// TODO: サーバーをlistenする
-
+	err = http.ListenAndServe(port, mux)
+	if err != nil {
+		return err
+	}
 	return nil
 }
