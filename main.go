@@ -2,11 +2,12 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"time"
-	"net/http"
 
 	"github.com/TechBowl-japan/go-stations/db"
+	"github.com/TechBowl-japan/go-stations/handler/router"
 	// "github.com/TechBowl-japan/go-stations/handler/router"
 )
 
@@ -49,9 +50,8 @@ func realMain() error {
 	defer todoDB.Close()
 
 	// set http handlers
-	// mux := router.NewRouter(todoDB)
-	mux := http.NewServeMux()
-	
+	mux := router.NewRouter(todoDB)
+
 	// TODO: ここから実装を行う
 	err = http.ListenAndServe(port, mux)
 	if err != nil {
